@@ -50,39 +50,110 @@ int main() {
 
 	return 0;
 }
+//void WelcomeScreen() {
+//	textColor(9);
+//	system("cls");
+//	cout << "\t\t\t\t* * * * * * * * * * *" << endl;
+//	cout << "\t\t\t\t*      WELCOME      *" << endl;
+//	cout << "\t\t\t\t* * * * * * * * * * *" << endl;
+//	cout << "\t\t\t\t1. Dang nhap Admin" << endl;
+//	cout << "\t\t\t\t2. Dang nhap User" << endl;
+//	cout << "\t\t\t\t3. Thoat" << endl;
+//labeldangnhap:
+//	int choice;
+//	cout << "\t\t\t\tMoi chon: ";
+//	textColor(2);
+//	cin >> choice;
+//	switch (choice) {
+//	case 1:
+//		dangNhapAdmin();
+//		break;
+//	case 2:
+//		dangNhapUser();
+//		break;
+//	case 3:
+//		capNhatTaiKhoan();
+//		exit(0);
+//	default:
+//		textColor(4);
+//		cout << "\t\t\t\tChon sai! Vui long chon lai!\n";
+//		textColor(9);
+//		goto labeldangnhap;
+//		break;
+//	}
+//}
+
+
 void WelcomeScreen() {
-	textColor(9);
-	system("cls");
-	cout << "\t\t\t\t* * * * * * * * * * *" << endl;
-	cout << "\t\t\t\t*      WELCOME      *" << endl;
-	cout << "\t\t\t\t* * * * * * * * * * *" << endl;
-	cout << "\t\t\t\t1. Dang nhap Admin" << endl;
-	cout << "\t\t\t\t2. Dang nhap User" << endl;
-	cout << "\t\t\t\t3. Thoat" << endl;
-labeldangnhap:
-	int choice;
-	cout << "\t\t\t\tMoi chon: ";
-	textColor(2);
-	cin >> choice;
-	switch (choice) {
-	case 1:
-		dangNhapAdmin();
-		break;
-	case 2:
-		dangNhapUser();
-		break;
-	case 3:
-		capNhatTaiKhoan();
-		exit(0);
-	default:
-		textColor(4);
-		cout << "\t\t\t\tChon sai! Vui long chon lai!\n";
-		textColor(9);
-		goto labeldangnhap;
-		break;
+	const int NUM_CHOICES = 4;
+	int currentChoice = 1;
+
+	while (true) {
+		system("cls");
+		textColor(6);
+		cout << "\t\t\t\t __________________________________________ \n";
+		cout << "\t\t\t\t|                                          |\n";
+		cout << "\t\t\t\t|                 XIN CHAO !               |\n";
+		cout << "\t\t\t\t|__________________________________________|\n";
+
+		for (int i = 1; i < NUM_CHOICES; i++) {
+			if (i == currentChoice) {
+				textColor(2);
+				cout << "\t\t\t\t-> ";
+			}
+			else {
+				textColor(6);
+				cout << "\t\t\t\t   ";
+			}
+				
+
+			switch (i) {
+			case 1:
+				cout << "1. Dang nhap Admin" << endl;
+				break;
+			case 2:
+				cout << "2. Dang nhap User" << endl;
+				break;
+			case 3:
+				cout << "3. Thoat" << endl;
+				break;
+			default:
+				break;
+			}
+		}
+
+		int key = _getch();
+
+		if (key == 224) { // Arrow key (extended code)
+			key = _getch(); // Read the actual arrow key code
+
+			if (key == 72) { // Up arrow
+				currentChoice = (currentChoice - 1 + NUM_CHOICES) % NUM_CHOICES;
+			}
+			else if (key == 80) { // Down arrow
+				currentChoice = (currentChoice + 1) % NUM_CHOICES;
+			}
+		}
+		else if (key == 13) { // Enter key
+			switch (currentChoice) {
+			case 1:
+				dangNhapAdmin(); // Gọi hàm dangNhapAdmin() khi chọn 1
+				break;
+			case 2:
+				dangNhapUser(); // Gọi hàm dangNhapUser() khi chọn 2
+				break;
+			case 3:
+				capNhatTaiKhoan();
+				exit(0);
+			default:
+				break;
+			}
+		}
 	}
 }
-// Admin
+
+// admin
+
 vector<Admin> lapDanhSachAdmin() {
 	string id, pin;
 	vector<Admin> tmp;
@@ -95,61 +166,105 @@ vector<Admin> lapDanhSachAdmin() {
 }
 void menuAdmin()
 {
-	system("cls");
-	textColor(9);
-	cout << "\t\t\t\t* * * * * * * * *MENU* * * * * * * * * *  *\n";
-	cout << "\t\t\t\t*   1. Xem danh sach tai khoan            *\n";
-	cout << "\t\t\t\t*   2. Them tai khoan                     *\n";
-	cout << "\t\t\t\t*   3. Mo tai khoan                       *\n";
-	cout << "\t\t\t\t*   4. Xoa tai khoan                      *\n";
-	cout << "\t\t\t\t*   5. Quay lai                           *\n";
-	cout << "\t\t\t\t*   6. Thoat                              *\n";
-	cout << "\t\t\t\t* * * * * * * * * * * * * * * * * * * * * *\n";
-	cout << "\t\t\t\tNhap lua chon cua ban: ";
-	int choice;
-	textColor(2);
-	cin >> choice;
-	textColor(9);
-	switch (choice) {
-	case 1:
-		xemDanhSachTaiKhoan();
-		break;
-	case 2:
-		themTaiKhoan();
-		break;
-	case 3:
-		moKhoaTaiKhoan();
-		break;
-	case 4:
-		xoaTaiKhoan();
-		break;
-	case 5:
-		capNhatTaiKhoan();
-		WelcomeScreen();
-		break;
-	case 6:
-		capNhatTaiKhoan();
-		exit('0');
-		break;
-	default:
-		textColor(4);
-		cout << "\t\t\t\tChon sai! Vui long chon lai!\n";
+	const int NUM_CHOICES = 7;
+	int currentChoice = 1;
+
+	while (true) {
+		system("cls");
 		textColor(9);
-		menuAdmin();
-		break;
+		cout << "\t\t\t\t ___________________________________________ \n";
+		cout << "\t\t\t\t|                                           |\n";
+		cout << "\t\t\t\t|                  MENU ADMIN               |\n";
+		cout << "\t\t\t\t|___________________________________________|\n";
+
+		for (int i = 1; i < NUM_CHOICES; i++) {
+			if (i == currentChoice) {
+				textColor(2);
+				cout << "\t\t\t\t-> ";
+			}
+			else {
+				textColor(9);
+				cout << "\t\t\t\t   ";
+			}
+
+			switch (i)
+			{
+			case 1:
+				cout << "1. Xem danh sach tai khoan\n";
+				break;
+			case 2:
+				cout << "2. Them tai khoan\n";
+				break;
+			case 3:
+				cout << "3. Mo tai khoan\n";
+				break;
+			case 4:
+				cout << "4. Xoa tai khoan\n";
+				break;
+			case 5:
+				cout << "5. Quay lai\n";
+				break;
+			case 6:
+				cout << "6. Thoat\n";
+				break;
+			default:
+				break;
+			}
+		}
+		int key = _getch();
+
+		if (key == 224) { // Arrow key (extended code)
+			key = _getch(); // Read the actual arrow key code
+
+			if (key == 72) { // Up arrow
+				currentChoice = (currentChoice - 1 + NUM_CHOICES) % NUM_CHOICES;
+			}
+			else if (key == 80) { // Down arrow
+				currentChoice = (currentChoice + 1) % NUM_CHOICES;
+			}
+		}
+		else if (key == 13) { // Enter key
+			switch (currentChoice) {
+			case 1:
+				xemDanhSachTaiKhoan();
+				break;
+			case 2:
+				themTaiKhoan();
+				break;
+			case 3:
+				moKhoaTaiKhoan();
+				break;
+			case 4:
+				xoaTaiKhoan();
+				break;
+			case 5:
+				capNhatTaiKhoan();
+				WelcomeScreen();
+				break;
+			case 6:
+				capNhatTaiKhoan();
+				exit('0');
+				break;
+			default:
+				textColor(9);
+				menuAdmin();
+				break;
+			}
+
+		}
 	}
 }
 
 void dangNhapAdmin() {
 	system("cls");
 	textColor(9);
-	cout << "\t\t\t\t* * * * * * * * * * * * * * *" << endl;
+	cout << "\t\t\t\t*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" << endl;
 	cout << "\t\t\t\t*       DANG NHAP ADMIN     *" << endl;
-	cout << "\t\t\t\t* * * * * * * * * * * * * * *" << endl;
+	cout << "\t\t\t\t*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" << endl;
 	string id, pin;
 	//ID admin ko yeu cau gioi han ki tu
 	char x = 'a';
-	cout << "\t\t\t\t	ID:  ";
+	cout << "\t\t\t\t Nhap ID:  ";
 	textColor(2);
 	while (x != 13) {
 		x = _getch();
@@ -172,7 +287,7 @@ void dangNhapAdmin() {
 	}
 	//PIN admin ko yeu cau gioi han ki tu
 	textColor(9);
-	cout << endl << "\t\t\t\t	PIN: ";
+	cout << endl << "\t\t\t\t Nhap PIN: ";
 	pin = "";
 	textColor(2);
 	x = 'a';
@@ -210,7 +325,7 @@ void dangNhapAdmin() {
 	}
 	else {
 		textColor(4);
-		cout << "\t\t\t\tNhap sai thong tin!\n";
+		cout << "\t\t\t\tNhap sai thong tin !\n";
 		textColor(9);
 		system("pause");
 		WelcomeScreen();
@@ -220,7 +335,7 @@ void dangNhapAdmin() {
 void xemDanhSachTaiKhoan() {
 	system("cls");
 	textColor(9);
-	cout << "\t\t\t\t* * * * * * *XEM DANH SACH TAI KHOAN* * * * * * *\n";
+	cout << "\t\t\t\t~~~~~~~~~~~ XEM DANH SACH TAI KHOAN ~~~~~~~~~~~\n";
 	cout << "\t\t\t\t" << left << setw(20) << "ID" << setw(20) << "PIN" << endl;
 	textColor(2);
 	for (int i = 0; i < gDanhSachUser.size(); i++) {
@@ -393,52 +508,95 @@ vector<User> lapDanhSachUser() {
 
 void menuUser()
 {
-	system("cls");
-	textColor(9);
-	cout << "\t\t\t\t* * * * * * * * *MENU* * * * * * * * * *  *\n";
-	cout << "\t\t\t\t*   1. Xem thong tin tai khoan            *\n";
-	cout << "\t\t\t\t*   2. Rut tien                           *\n";
-	cout << "\t\t\t\t*   3. Chuyen tien                        *\n";
-	cout << "\t\t\t\t*   4. Xem noi dung giao dich             *\n";
-	cout << "\t\t\t\t*   5. Doi ma PIN                         *\n";
-	cout << "\t\t\t\t*   6. Quay lai                           *\n";
-	cout << "\t\t\t\t*   7. Thoat                              *\n";
-	cout << "\t\t\t\t* * * * * * * * * * * * * * * * * * * * * *\n";
-	cout << "\t\t\t\tNhap lua chon cua ban: ";
-	textColor(2);
-	int choice;
-	while (cin >> choice) {
+	const int NUM_CHOICES = 8;
+	int currentChoice = 1;
+
+	while (true) {
+		system("cls");
 		textColor(9);
-		switch (choice)
-		{
-		case 1:
-			xemThongTinTaiKhoan();
-			break;
-		case 2:
-			rutTien();
-			break;
-		case 3:
-			chuyenTien();
-			break;
-		case 4:
-			xemLichSuGiaoDich();
-			break;
-		case 5:
-			doiMaPIN();
-			break;
-		case 6:
-			WelcomeScreen();
-			break;
-		case 7:
-			capNhatTaiKhoan();
-			exit(0);
-		default:
-			textColor(4);
-			cout << "\t\t\t\tChon sai! Vui long chon lai!\n";
-			textColor(9);
-			system("pause");
-			menuUser();
-			break;
+		cout << "\t\t\t\t ___________________________________________ \n";
+		cout << "\t\t\t\t|                                           |\n";
+		cout << "\t\t\t\t|                  MENU USER                |\n";
+		cout << "\t\t\t\t|___________________________________________|\n";
+
+		for (int i = 1; i < NUM_CHOICES; i++) {
+			if (i == currentChoice) {
+				textColor(2);
+				cout << "\t\t\t\t-> ";
+			}
+			else {
+				textColor(9);
+				cout << "\t\t\t\t   ";
+			}
+
+			switch (i)
+			{
+			case 1:
+				cout << "1. Xem thong tin tai khoan\n";
+				break;
+			case 2:
+				cout << "2. Rut tien\n";
+				break;
+			case 3:
+				cout << "3. Chuyen tien\n";
+				break;
+			case 4:
+				cout << "4. Xem noi dung giao dich\n";
+				break;
+			case 5:
+				cout << "5. Doi ma PIN\n";
+				break;
+			case 6:
+				cout << "6. Quay lai\n";
+				break;
+			case 7:
+				cout << "7. Thoat\n";
+				break;
+			default:
+				break;
+			}
+		}
+		int key = _getch();
+
+		if (key == 224) { // Arrow key (extended code)
+			key = _getch(); // Read the actual arrow key code
+
+			if (key == 72) { // Up arrow
+				currentChoice = (currentChoice - 1 + NUM_CHOICES) % NUM_CHOICES;
+			}
+			else if (key == 80) { // Down arrow
+				currentChoice = (currentChoice + 1) % NUM_CHOICES;
+			}
+		}
+		else if (key == 13) { // Enter key
+			switch (currentChoice) {
+			case 1:
+				xemThongTinTaiKhoan();
+				break;
+			case 2:
+				rutTien();
+				break;
+			case 3:
+				chuyenTien();
+				break;
+			case 4:
+				xemLichSuGiaoDich();
+				break;
+			case 5:
+				doiMaPIN();
+				break;
+			case 6:
+				WelcomeScreen();
+				break;
+			case 7:
+				capNhatTaiKhoan();
+				exit(0);
+			default:
+				textColor(9);
+				menuUser();
+				break;
+			}
+
 		}
 	}
 }
